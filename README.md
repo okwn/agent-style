@@ -17,9 +17,11 @@
 [![GitHub stars](https://img.shields.io/github/stars/yzhao062/agent-style?style=social&cacheSeconds=300)](https://github.com/yzhao062/agent-style)
 
 [Before / after](#before-and-after) &nbsp;·&nbsp;
+[Quickstart](#quickstart) &nbsp;·&nbsp;
 [What it is](#what-it-is) &nbsp;·&nbsp;
 [Does it work?](#does-it-work) &nbsp;·&nbsp;
-[Use](#use)
+[Use](#use) &nbsp;·&nbsp;
+[Rules table](#rules)
 
 </div>
 
@@ -28,6 +30,33 @@
 ![agent-style hero: 21 rules, then three real v0.3.0 bench before/after pairs (product description, design-doc section, paper related-work section) with rule violations highlighted in the AI drafts and concrete details highlighted in the agent-style-loaded revisions](docs/hero.png)
 
 The top row is the identity: 21 rules, 12 canonical plus 9 field-observed; bordered red marks the two critical rules (RULE-01 curse-of-knowledge and RULE-H citation discipline). The bottom three rows are the mechanism, each pulled from a real v0.3.0 bench draft pair (same prompt, independent generations with and without the ruleset): a product description on Gemini 3 Flash (8 → 0 violations), a design-doc section on Claude Opus 4.7 (14 → 7), and a paper related-work section on Gemini 3 Flash (6 → 4; the source drafts are anchored to three prompt-named benchmarks (AgentBench, BFCL, tau-bench) so the style delta measured by `agent-style review` is isolated from fabricated-citation noise, though the displayed baseline snippet stops before the third name to keep the panel to three sentences). Each row shows the AI draft on the left with rule-violating phrases highlighted, the specific rules that fire in the middle, and the revised version on the right at the same length budget, same register, same document type.
+
+## Quickstart
+
+**Install:**
+
+```bash
+pip install agent-style                              # Python users
+# or: npm install -g agent-style                     # Node users
+```
+
+**Use — review a file:**
+
+```bash
+agent-style review path/to/file.md                   # human-readable audit
+agent-style review path/to/file.md --audit-only      # machine-readable JSON
+```
+
+**Use — enforce at generation time** (agent writes better on first draft):
+
+```bash
+agent-style enable claude-code                       # wire up Claude Code
+# Inside a Claude Code session, your prose now follows agent-style's 21 rules.
+```
+
+For other agents, run `agent-style list-tools` to see all supported tools.
+
+See the [Use](#use) section below for the full detail on soft enforcement (rules at generation time) and the `style-review` skill (opt-in second pass).
 
 ## What It Is
 
@@ -49,6 +78,8 @@ The 21 rules split by origin. The agent reads both as equal peers; no group is a
 - **`RULE-A..I` (field-observed).** Patterns I logged from AI output across dozens of writing projects (papers, grant proposals, technical documentation, agent configs) and code releases, 2022 to 2026. Transparent attribution: these are not literature-backed but capture LLM-specific failure modes that the canonical set alone misses (RULE-H citation discipline is the critical one). Full names in the table below.
 
 Named in homage to Strunk & White's *The Elements of Style* (1918/1959), one of the four canonical sources.
+
+## Rules
 
 ### Canonical Rules (RULE-01 through RULE-12)
 
