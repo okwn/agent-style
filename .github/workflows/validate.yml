@@ -16,6 +16,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6
 
+      - name: Cache markdownlint-cli2
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: markdownlint-cli2-modules
+
       - name: Run markdownlint-cli2
         uses: DavidAnson/markdownlint-cli2-action@v19
         with:
@@ -27,6 +33,12 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
+
+      - name: Cache markdown link check
+        uses: actions/cache@v4
+        with:
+          path: ~/.npm
+          key: markdown-link-check-modules
 
       - name: Run markdown-link-check
         uses: gaurav-nelson/github-action-markdown-link-check@v1
@@ -46,6 +58,7 @@ jobs:
         uses: actions/setup-python@v6
         with:
           python-version: "3.12"
+          cache: pip
 
       - name: Install parser dependency
         run: python -m pip install "markdown-it-py>=3,<5"
